@@ -22,4 +22,15 @@ Conversation.findConversation = async function (user1Id, user2Id) {
   return conversation;
 };
 
+//new search method to replace the time-saving security breach
+Conversation.findConversationById = async function (conversationId) {
+  const conversation = await Conversation.findOne({
+    where: {
+      id: conversationId
+    }
+  })
+
+  return conversation;
+}
+
 module.exports = Conversation;

@@ -12,10 +12,27 @@ router.post("/", async (req, res, next) => {
     const { recipientId, text, conversationId, sender } = req.body;
 
     // if we already know conversation id, we can save time and just add it to message and return
-    if (conversationId) {
-      const message = await Message.create({ senderId, text, conversationId });
-      return res.json({ message, sender });
+    // if (conversationId) {
+    //   const message = await Message.create({ senderId, text, conversationId });
+    //   return res.json({ message, sender });
+    // }
+
+    //I believe the above logic was the security breach, as this would let any sender post a message
+    //to the conversation as long as they had the Id, rather than checking for the conversation
+    //sender and recipient should be sharing
+
+    //this function attempts to keep the time saved from the breach without breaching security,
+    //but the server works fine without it
+    if(conversationId) {
+      let conversation = await Conversation.findConversationById(conversationId)
+      if(conversation.user1Id === senderId || consversation.user2Id === senderId) {
+        console.log('found it!')
+        const message = await Message.create({ senderId, text, conversationId });
+        return res.json({ message, sender });
+      }
+      console.log('illegal message')
     }
+    
     // if we don't have conversation id, find a conversation to make sure it doesn't already exist
     let conversation = await Conversation.findConversation(
       senderId,
