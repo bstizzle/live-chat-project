@@ -1,56 +1,23 @@
 import React, { useState } from "react";
-import { Redirect, useHistory } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import {
   Grid,
-  Typography,
   Button,
   FormControl,
   Paper,
   Input,
-  InputLabel,
-  Hidden
+  InputLabel
 } from "@material-ui/core";
 import { register } from "./store/utils/thunkCreators";
+import AuthSidebar from './components/auth-components/AuthSidebar';
+import AuthHeader from './components/auth-components/AuthHeader';
+import AuthFormHeader from './components/auth-components/AuthFormHeader';
 
-import { makeStyles } from "@material-ui/core/styles";
-import bgImage from './images/bg-img.png';
-import bubble from './images/bubble.svg';
+import { useStyles } from './themes/loginStyles.js'
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    display: 'flex',
-    height: '100vh'
-  },
-  imgOver: {
-    textAlign: 'center',
-  },
-  input: {
-    padding: "10px"
-  },
-  sideTxt: {
-    color: "white",
-  },
-  header: {
-    paddingTop: "50px",
-  },
-  headerTxt: {
-    paddingTop: "25px", 
-    color: "#C0C0C0"
-  },
-  paper: {
-    textAlign: "center",  
-  },
-  button: {
-    boxShadow: "0 2px 20px 0 rgba(88,133,196,0.40)",
-    width: "200px",
-    height: "80px",
-  }
-}))
-
-const Login = (props) => {
+const Signup = (props) => {
   const classes = useStyles();
-  const history = useHistory();
   const { user, register } = props;
   const [formErrorMessage, setFormErrorMessage] = useState({});
 
@@ -74,43 +41,13 @@ const Login = (props) => {
   }
 
   return (
-<div className={classes.root}>
-      <Hidden smDown>
-        <div className="sidebar" style={{"--img": `url("${bgImage}")`}}>
-          <Grid
-            container
-            className={classes.imgOver}
-            spacing={10}
-          >
-            <Grid item xs={12}>
-              <img src={bubble} alt="bubble" />
-            </Grid>
-            <Grid item xs={12}>
-              <Typography variant="h4" className={classes.sideTxt}>
-                Converse with anyone<br></br>
-                with any language
-              </Typography>
-            </Grid>
-          </Grid>
-        </div>
-      </Hidden>
+    <div className={classes.root}>
+      <AuthSidebar />
       <Grid container className={classes.header} spacing={3}>
-        <Grid item sm={8} xs={6}>
-          <Typography className={classes.headerTxt} align="right">Already have an account?</Typography>
-        </Grid>
-        <Grid item sm={4} xs={6}>
-          <Button className={classes.button} onClick={() => history.push("/login")} style={{color:"#3A8DFF"}}>
-            Login
-          </Button>
-        </Grid>
-        <Grid item xs={12} style={{padding: '0px 150px 0px 150px'}}>
+        <AuthHeader page="signup" />
+        <Grid item xs={12} className={classes.formContainer}>
           <Paper className={classes.paper} elevation={0} justify="center">
-            <Hidden smDown>
-              <Typography variant="h3" style={{textAlign: "left", fontWeight: "bold", paddingBottom: '40px'}}>Create an account.</Typography>
-            </Hidden>
-            <Hidden mdUp>
-              <Typography variant="h4" style={{textAlign: "left", fontWeight: "bold", paddingBottom: '40px'}}>Create an account.</Typography>
-            </Hidden>
+            <AuthFormHeader page="signup" />
             <form onSubmit={handleRegister}>
               <Grid item xs={12}>
                 <FormControl className={classes.input} fullWidth required>
@@ -125,19 +62,19 @@ const Login = (props) => {
                 </FormControl>
               </Grid>
               <Grid item xs={12}>
-                <FormControl className={classes.input} fullWidth required>
+                <FormControl className={classes.input} fullWidth required error={!!formErrorMessage.confirmPassword}>
                   <InputLabel htmlFor="password">Password</InputLabel>
                   <Input id="password" aria-describedby="password" type="password" />
                 </FormControl>
               </Grid>
               <Grid item xs={12}>
-                <FormControl className={classes.input} fullWidth required>
+                <FormControl className={classes.input} fullWidth required error={!!formErrorMessage.confirmPassword}>
                   <InputLabel htmlFor="confirm password">Confirm Password</InputLabel>
                   <Input id="confirmPassword" aria-describedby="confirm password" type="password" />
                 </FormControl>
               </Grid>
-              <Grid item xs={12} style={{paddingTop: '40px'}}>
-                <Button className={classes.button} color="primary" type="submit" variant="contained" size="large">
+              <Grid item xs={12} className={classes.btnContainer}>
+                <Button className={classes.submitBtn} color="primary" type="submit" variant="contained" size="large">
                   Create
                 </Button>
               </Grid>
@@ -163,4 +100,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Signup);
