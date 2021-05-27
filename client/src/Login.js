@@ -8,10 +8,38 @@ import {
   Button,
   FormControl,
   TextField,
+  Paper
 } from "@material-ui/core";
 import { login } from "./store/utils/thunkCreators";
 
+import { makeStyles } from "@material-ui/core/styles";
+import bgImage from './images/bg-img.png';
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  content: {
+    padding: "20px",
+    flexDirection: "column"
+  },
+  header: {
+    display: 'flex',
+    flexDirection: "row"
+  },
+  paper: {
+    textAlign: "center",
+  },
+  button: {
+    boxShadow: "0 2px 20px 0 rgba(88,133,196,0.10)",
+    width: "200px",
+    height: "100px"
+  }
+}))
+
 const Login = (props) => {
+  const classes = useStyles();
   const history = useHistory();
   const { user, login } = props;
 
@@ -28,6 +56,46 @@ const Login = (props) => {
   }
 
   return (
+    <>
+    <Box className={classes.root}>
+      <img src={bgImage} alt="sidebar" />
+        <Grid container spacing={3}>
+          <Grid item xs={6}>
+            <Typography>Need to register?</Typography>
+          </Grid>
+          <Grid item xs={6}>
+            <Button className={classes.button} onClick={() => history.push("/register")}>Register</Button>
+          </Grid>
+          <Grid item xs={12} alignContent="center">
+            <Paper className={classes.paper} elevation={0}>
+            <form onSubmit={handleLogin}>
+            <Grid item>
+              <FormControl required>
+                <TextField
+                  aria-label="username"
+                  label="Username"
+                  name="username"
+                  type="text"
+                />
+              </FormControl>
+            </Grid>
+            <Grid item>
+              <FormControl required>
+                <TextField
+                  aria-label="password"
+                  label="Password"
+                  name="password"
+                  type="text"
+                />
+              </FormControl>
+              </Grid>
+            </form>
+            </Paper>
+          </Grid>
+        </Grid>
+    </Box>
+
+
     <Grid container justify="center">
       <Box>
         <Grid container item>
@@ -63,6 +131,7 @@ const Login = (props) => {
         </form>
       </Box>
     </Grid>
+    </>
   );
 };
 
