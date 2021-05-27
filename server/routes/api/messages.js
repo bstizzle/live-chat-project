@@ -26,11 +26,9 @@ router.post("/", async (req, res, next) => {
     if(conversationId) {
       let conversation = await Conversation.findConversationById(conversationId)
       if(conversation.user1Id === senderId || consversation.user2Id === senderId) {
-        console.log('found it!')
         const message = await Message.create({ senderId, text, conversationId });
         return res.json({ message, sender });
       }
-      console.log('illegal message')
     }
     
     // if we don't have conversation id, find a conversation to make sure it doesn't already exist
