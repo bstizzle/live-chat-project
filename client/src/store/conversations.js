@@ -74,7 +74,6 @@ const reducer = (state = [], action) => {
     case GET_CONVERSATIONS:
       return action.conversations;
     case SET_MESSAGE:
-      // debugger
       return addMessageToStore(state, action.payload);
     case ADD_ONLINE_USER: {
       return addOnlineUserToStore(state, action.id);
