@@ -15,4 +15,5 @@ code {
   width: 80%;
   background-size: cover;
   display: flex;
+  align-items: center;
 }
