@@ -1,3 +1,6 @@
+//unsure if maybe OS/setup specific, but my local env needs this line to read .env files correctly
+require("dotenv").config();
+
 const createError = require("http-errors");
 const express = require("express");
 const { join } = require("path");
