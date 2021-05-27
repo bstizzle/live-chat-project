@@ -32,8 +32,7 @@ const useStyles = makeStyles((theme) => ({
     color: "white",
   },
   header: {
-    paddingTop: "50px",
-    height: '5%'
+    paddingTop: "50px"
   },
   headerTxt: {
     paddingTop: "25px", 
@@ -87,16 +86,14 @@ const Login = (props) => {
           </Grid>
         </div>
       </Hidden>
-      <Grid container>
-        <Grid container item className={classes.header} spacing={3}>
-          <Grid item sm={8} xs={6}>
-            <Typography className={classes.headerTxt} align="right">Don't have an account?</Typography>
-          </Grid>
-          <Grid item sm={4} xs={6}>
-            <Button className={classes.button} onClick={() => history.push("/register")} style={{color:"#3A8DFF"}}>
-              Create Account
-            </Button>
-          </Grid>
+      <Grid container spacing={3} className={classes.header}>
+        <Grid item sm={8} xs={6}>
+          <Typography className={classes.headerTxt} align="right">Don't have an account?</Typography>
+        </Grid>
+        <Grid item sm={4} xs={6}>
+          <Button className={classes.button} onClick={() => history.push("/register")} style={{color:"#3A8DFF"}}>
+            Create Account
+          </Button>
         </Grid>
         <Grid item xs={12} style={{padding: '0px 150px 0px 150px'}}>
           <Paper className={classes.paper} elevation={0} justify="center">
