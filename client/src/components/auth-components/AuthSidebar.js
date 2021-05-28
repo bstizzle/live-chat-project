@@ -1,6 +1,5 @@
 import React from 'react';
 import { useStyles } from '../../themes/loginStyles';
-import bgImage from '../../images/bg-img.png';
 import bubble from '../../images/bubble.svg';
 import {
   Hidden,
@@ -13,7 +12,7 @@ const AuthSidebar = () => {
 
   return(
     <Hidden smDown>
-      <div className={classes.sidebar} style={{"--img": `url("${bgImage}")`}}>
+      <div className={classes.sidebar}>
         <Grid
           container
           className={classes.imgOver}

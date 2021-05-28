@@ -1,4 +1,5 @@
 import { makeStyles } from "@material-ui/core/styles";
+import bgImage from '../images/bg-img.png';
 
 export const useStyles = makeStyles((theme) => ({
   root: {
@@ -44,10 +45,10 @@ export const useStyles = makeStyles((theme) => ({
     height: "80px",
   },
   btnContainer: {
-    paddingTop: '40px'
+    paddingTop: "40px"
   },
   sidebar: {
-    backgroundImage: "linear-gradient(to bottom, rgba(58, 141, 255, 0.85), rgba(134, 185, 255, 1)), var(--img)",
+    backgroundImage: `linear-gradient(to bottom, rgba(58, 141, 255, 0.85), rgba(134, 185, 255, 1)), url(${bgImage})`,
     width: "80%",
     backgroundSize: "cover",
     display: "flex",
