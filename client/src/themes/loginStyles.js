@@ -10,25 +10,26 @@ export const useStyles = makeStyles((theme) => ({
     textAlign: "center",
   },
   input: {
-    padding: "10px"
+    padding: "5%"
   },
   sideTxt: {
     color: "white",
   },
   header: {
     paddingTop: "50px",
+    paddingRight: "5%"
   },
   headerTxt: {
     paddingTop: "25px", 
     color: "#C0C0C0"
   },
   formContainer: {
-    margin: "0px 150px 0px 150px"
+    margin: "0% 15% 0% 15%"
   },
   formHeader: {
     textAlign: "left",
     fontWeight: "bold",
-    paddingBottom: "40px"
+    paddingBottom: "5%"
   },
   paper: {
     textAlign: "center",  
@@ -37,7 +38,7 @@ export const useStyles = makeStyles((theme) => ({
     boxShadow: "0 2px 20px 0 rgba(88,133,196,0.40)",
     width: "200px",
     height: "80px",
-    color:"#3A8DFF"
+    color:"#3A8DFF",
   },
   submitBtn: {
     boxShadow: "0 2px 20px 0 rgba(88,133,196,0.40)",
