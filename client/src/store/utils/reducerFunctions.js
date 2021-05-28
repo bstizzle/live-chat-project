@@ -9,20 +9,28 @@ export const addMessageToStore = (state, payload) => {
       messages: [message],
     };
     newConvo.latestMessageText = message.text;
+    newConvo.latestMessageId = message.id;
     return [newConvo, ...state];
   }
-
+  
   return state.map((convo) => {
     if (convo.id === message.conversationId) {
       const convoCopy = { ...convo };
       convoCopy.messages.push(message);
       convoCopy.latestMessageText = message.text;
-
+      convoCopy.latestMessageId = message.id;
       return convoCopy;
     } else {
       return convo;
     }
-  });
+  }).sort((a, b) => {
+      if(a.latestMessageId < b.latestMessageId) {
+        return 1;
+      } else if(a.latestMessageId > b.latestMessageId) {
+        return -1;
+      }
+      return 0;
+    });
 };
 
 export const addOnlineUserToStore = (state, id) => {
