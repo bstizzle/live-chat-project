@@ -20,6 +20,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 const Sidebar = (props) => {
+  console.log(props)
   const classes = useStyles();
   const conversations = props.conversations || [];
   const { handleChange, searchTerm } = props;

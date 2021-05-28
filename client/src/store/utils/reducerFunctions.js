@@ -27,7 +27,7 @@ export const addMessageToStore = (state, payload) => {
       if(a.latestMessageId < b.latestMessageId) {
         return 1;
       } else if(a.latestMessageId > b.latestMessageId) {
-        return -1;
+        return -1;  
       }
       return 0;
     });
@@ -84,9 +84,17 @@ export const addNewConvoToStore = (state, recipientId, message) => {
       newConvo.id = message.conversationId;
       newConvo.messages.push(message);
       newConvo.latestMessageText = message.text;
+      newConvo.latestMessageId = message.id;
       return newConvo;
     } else {
       return convo;
     }
+  }).sort((a, b) => {
+    if(a.latestMessageId < b.latestMessageId) {
+      return 1;
+    } else if(a.latestMessageId > b.latestMessageId) {
+      return -1;  
+    }
+    return 0;
   });
 };
