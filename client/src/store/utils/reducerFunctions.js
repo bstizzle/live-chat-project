@@ -29,7 +29,6 @@ export const addMessageToStore = (state, payload) => {
       } else if(a.latestMessageId > b.latestMessageId) {
         return -1;  
       }
-      return 0;
     });
 };
 
@@ -95,6 +94,5 @@ export const addNewConvoToStore = (state, recipientId, message) => {
     } else if(a.latestMessageId > b.latestMessageId) {
       return -1;  
     }
-    return 0;
   });
 };

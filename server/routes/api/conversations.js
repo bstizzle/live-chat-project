@@ -81,7 +81,6 @@ router.get("/", async (req, res, next) => {
       } else if(a.latestMessageId > b.latestMessageId) {
         return -1;
       }
-      return 0;
     })
     res.json(conversations);
   } catch (error) {
