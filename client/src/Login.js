@@ -53,7 +53,7 @@ const Login = (props) => {
                   <Input id="password" aria-describedby="password" type="password" />
                 </FormControl>
               </Grid>
-              <Grid item xs={12} className={classes.btnContainer}>
+              <Grid item xs={12} className={classes.subBtnContainer}>
                 <Button className={classes.submitBtn} color="primary" type="submit" variant="contained" size="large">
                   Login
                 </Button>

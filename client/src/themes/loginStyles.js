@@ -40,12 +40,16 @@ export const useStyles = makeStyles((theme) => ({
     height: "80px",
     color:"#3A8DFF",
   },
+  rtBtnContainer: {
+    display: 'flex',
+    justifyContent: 'center'
+  },
   submitBtn: {
     boxShadow: "0 2px 20px 0 rgba(88,133,196,0.40)",
     width: "200px",
     height: "80px",
   },
-  btnContainer: {
+  subBtnContainer: {
     paddingTop: "40px"
   },
   sidebar: {

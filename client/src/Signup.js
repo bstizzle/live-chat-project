@@ -73,7 +73,7 @@ const Signup = (props) => {
                   <Input id="confirmPassword" aria-describedby="confirm password" type="password" />
                 </FormControl>
               </Grid>
-              <Grid item xs={12} className={classes.btnContainer}>
+              <Grid item xs={12} className={classes.subBtnContainer}>
                 <Button className={classes.submitBtn} color="primary" type="submit" variant="contained" size="large">
                   Create
                 </Button>

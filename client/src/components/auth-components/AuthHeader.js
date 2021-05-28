@@ -21,12 +21,12 @@ const AuthHeader = ({ page }) => {
 
   return(
     <>
-      {/* <Hidden smDown> */}
+      <Hidden xsDown>
        <Grid item sm={8} xs={6}>
           <Typography className={classes.headerTxt} align="right">{header}</Typography>
         </Grid>
-      {/* </Hidden> */}
-      <Grid item sm={4} xs={6}>
+      </Hidden>
+      <Grid item sm={4} xs={12} className={classes.rtBtnContainer}>
         <Button className={classes.routeBtn}
           onClick={() => {
             if(page === "login") {
