@@ -1,18 +1,23 @@
 import React from "react";
-import { Redirect, useHistory } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import {
   Grid,
-  Box,
-  Typography,
   Button,
   FormControl,
-  TextField,
+  Paper,
+  Input,
+  InputLabel
 } from "@material-ui/core";
 import { login } from "./store/utils/thunkCreators";
+import AuthSidebar from './components/auth-components/AuthSidebar';
+import AuthHeader from './components/auth-components/AuthHeader';
+import AuthFormHeader from './components/auth-components/AuthFormHeader';
+
+import { useStyles } from './themes/loginStyles.js'
 
 const Login = (props) => {
-  const history = useHistory();
+  const classes = useStyles();
   const { user, login } = props;
 
   const handleLogin = async (event) => {
@@ -28,41 +33,36 @@ const Login = (props) => {
   }
 
   return (
-    <Grid container justify="center">
-      <Box>
-        <Grid container item>
-          <Typography>Need to register?</Typography>
-          <Button onClick={() => history.push("/register")}>Register</Button>
+    <div className={classes.root}>
+      <AuthSidebar />
+      <Grid container spacing={3} className={classes.header}>
+        <AuthHeader page="login" />
+        <Grid item xs={12} className={classes.formContainer}>
+          <Paper className={classes.paper} elevation={0} justify="center">
+            <AuthFormHeader page="login" />
+            <form onSubmit={handleLogin}>
+              <Grid item xs={12}>
+                <FormControl className={classes.input} fullWidth required>
+                  <InputLabel htmlFor="username">Username</InputLabel>
+                  <Input id="username" aria-describedby="username" />
+                </FormControl>
+              </Grid>
+              <Grid item xs={12}>
+                <FormControl className={classes.input} fullWidth required>
+                  <InputLabel htmlFor="password">Password</InputLabel>
+                  <Input id="password" aria-describedby="password" type="password" />
+                </FormControl>
+              </Grid>
+              <Grid item xs={12} className={classes.subBtnContainer}>
+                <Button className={classes.submitBtn} color="primary" type="submit" variant="contained" size="large">
+                  Login
+                </Button>
+              </Grid>
+            </form>
+          </Paper>
         </Grid>
-        <form onSubmit={handleLogin}>
-          <Grid>
-            <Grid>
-              <FormControl margin="normal" required>
-                <TextField
-                  aria-label="username"
-                  label="Username"
-                  name="username"
-                  type="text"
-                />
-              </FormControl>
-            </Grid>
-            <FormControl margin="normal" required>
-              <TextField
-                label="password"
-                aria-label="password"
-                type="password"
-                name="password"
-              />
-            </FormControl>
-            <Grid>
-              <Button type="submit" variant="contained" size="large">
-                Login
-              </Button>
-            </Grid>
-          </Grid>
-        </form>
-      </Box>
-    </Grid>
+      </Grid>
+    </div>
   );
 };
 
