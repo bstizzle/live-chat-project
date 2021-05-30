@@ -93,9 +93,11 @@ const sendMessage = (data, body) => {
 
 // message format to send: {recipientId, text, conversationId}
 // conversationId will be set to null if its a brand new conversation
-export const postMessage = (body) => (dispatch) => {
+export const postMessage = (body) => async (dispatch) => {
   try {
-    const data = saveMessage(body);
+    //the async-await being only in the saveMessage function before made
+    //this function go through before it got the data returned
+    const data = await saveMessage(body);
 
     if (!body.conversationId) {
       dispatch(addConversation(body.recipientId, data.message));
