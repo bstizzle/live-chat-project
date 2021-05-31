@@ -30,17 +30,20 @@ const server = http.createServer(app);
  */
 
 const io = require("socket.io")(server);
+const jwt = require("jsonwebtoken");
+const cookie = require('cookie');
 
 io.use(async (socket, next) => {
-  try {
-    const token = socket.handshake.auth.token
-    console.log(token)
-    const payload = await jwt.verify(token, process.env.SESSION_SECRET)
-    console.log("hello", payload)
-    socket.user_id = payload.user_id
-    next()
-  } catch (err) {
-    next(err)
+  const token = cookie.parse(socket.handshake.headers.cookie)['login-token']
+  if(token) {
+    jwt.verify(token, process.env.SESSION_SECRET, (err, decoded) => {
+      if(err) {
+        return next(new Error("Unauthorized socket"))
+      }
+      return next()
+    })  
+  } else {
+    return next()
   }
 })
 
