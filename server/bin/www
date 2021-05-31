@@ -30,20 +30,24 @@ const server = http.createServer(app);
  */
 
 const io = require("socket.io")(server);
-const jwt = require('jsonwebtoken');
+const jwtAuth = require('socketio-jwt-auth');
+const { User } = require("../db/models");
 
-io.use(function(socket, next){
-  if (socket.handshake.auth && socket.handshake.auth.token){
-    jwt.verify(socket.handshake.auth.token, process.env.SESSION_SECRET, (err, decoded) => {
-      if (err) return next(new Error('Authentication error'));
-      socket.decoded = decoded;
-      next();
-    });
-  }
-  else {
-    next(new Error('Authentication error'));
-  }    
-}).on("connection", (socket) => {
+io.use(jwtAuth.authenticate({
+  secret: process.env.SESSION_SECRET,
+}, (payload, done) => {
+  User.findOne({id: payload.sub}, (err, user) => {
+    if(err) {
+      return done(err);
+    }
+    if(!user) {
+      return done(null, false, 'user not found')
+    }
+    return done(null, user)
+  });
+}));
+
+io.on("connection", (socket) => {
   socket.on("go-online", (id) => {
     if (!onlineUsers.includes(id)) {
       onlineUsers.push(id);
