@@ -72,11 +72,10 @@ export const fetchConversations = () => async (dispatch) => {
 // thunk for changing 'seen' to true
 export const updateConversation = (id) => async (dispatch) => {
   try {
-    console.log('read convo thunk', id)
     const { data } = await axios.put(`/api/conversations/${id}`, {id: id});
-    return data;
+    dispatch(readConversation(data))
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 }
 

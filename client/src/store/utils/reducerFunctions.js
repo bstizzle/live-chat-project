@@ -1,3 +1,16 @@
+export const updateConvoInStore = (state, conversation) => {
+  return state.map(convo => {
+    if(convo.id === conversation.id){
+      const updatedConvo = {
+        ...convo,
+        unreadMsgs: 0
+      }
+      return updatedConvo
+    }
+    return convo
+  })
+}
+
 export const addMessageToStore = (state, payload) => {
   const { message, sender } = payload;
 

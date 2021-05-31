@@ -4,6 +4,7 @@ import {
   addSearchedUsersToStore,
   removeOfflineUserFromStore,
   addMessageToStore,
+  updateConvoInStore
 } from "./utils/reducerFunctions";
 
 // ACTIONS
@@ -20,10 +21,10 @@ const READ_CONVERSATION = "READ_CONVERSATION";
 
 // ACTION CREATORS
 
-export const readConversation = (conversationId) => {
+export const readConversation = (conversation) => {
   return {
     type: READ_CONVERSATION,
-    conversationId
+    conversation
   }
 }
 
@@ -80,6 +81,8 @@ export const addConversation = (recipientId, newMessage) => {
 
 const reducer = (state = [], action) => {
   switch (action.type) {
+    case READ_CONVERSATION:
+      return updateConvoInStore(state, action.conversation)
     case GET_CONVERSATIONS:
       return action.conversations;
     case SET_MESSAGE:

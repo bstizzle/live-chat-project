@@ -118,13 +118,17 @@ router.put("/:id", async (req, res, next) => {
       ]
     })
 
-    await convo.messages.forEach(msg => {
+    convo.messages = await convo.messages.map(msg => {
+      //for each received message, update seen to true in db and for the response
       if(msg.senderId !== userId){
         Message.update(
           {seen: true},
           {where: {id: msg.id}}
         )
+        msg.seen = true;
+        return msg
       }
+      return msg
     })
 
     res.json(convo)
