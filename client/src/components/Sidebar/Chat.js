@@ -32,6 +32,8 @@ class Chat extends Component {
   render() {
     const { classes } = this.props;
     const otherUser = this.props.conversation.otherUser;
+    const unreadCount = this.props.conversation.unreadMsgs
+
     return (
       <Box
         onClick={() => this.handleClick(this.props.conversation)}
@@ -44,8 +46,8 @@ class Chat extends Component {
           sidebar={true}
         />
         <ChatContent conversation={this.props.conversation} />
-        {this.props.conversation.unreadMsgs === 0 ? 
-          null : <Chip color="primary" size="small" label={this.props.conversation.unreadMsgs} />
+        {unreadCount === 0 || unreadCount === undefined ? 
+          null : <Chip color="primary" size="small" label={unreadCount} />
         }
       </Box>
     );
