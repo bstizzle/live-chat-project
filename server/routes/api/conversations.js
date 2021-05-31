@@ -74,15 +74,16 @@ router.get("/", async (req, res, next) => {
       convoJSON.latestMessageText = convoJSON.messages[latestTxtIndex].text;
       convoJSON.latestMessageId = convoJSON.messages[latestTxtIndex].id
 
-      // set unread message count
-      // this makes the get request O(N^2) time complexity which isn't great
-      let unreads = 0;
-      convoJSON.messages.forEach((m) => {
-        if(m.seen === false && userId !== m.senderId){
-          unreads += 1;
+      const unreads = await Message.findAll({
+        where: {
+          seen: false,
+          conversationId: conversations[i].id,
+          id: {
+            [Op.not]: userId
+          }
         }
       })
-      convoJSON.unreadMsgs = unreads;
+      convoJSON.unreadMsgs = unreads.length;
 
       conversations[i] = convoJSON;
     }
