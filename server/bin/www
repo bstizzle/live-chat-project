@@ -30,24 +30,22 @@ const server = http.createServer(app);
  */
 
 const io = require("socket.io")(server);
-const jwtAuth = require('socketio-jwt-auth');
-const { User } = require("../db/models");
 
-io.use(jwtAuth.authenticate({
-  secret: process.env.SESSION_SECRET,
-}, (payload, done) => {
-  User.findOne({id: payload.sub}, (err, user) => {
-    if(err) {
-      return done(err);
-    }
-    if(!user) {
-      return done(null, false, 'user not found')
-    }
-    return done(null, user)
-  });
-}));
+io.use(async (socket, next) => {
+  try {
+    const token = socket.handshake.auth.token
+    console.log(token)
+    const payload = await jwt.verify(token, process.env.SESSION_SECRET)
+    console.log("hello", payload)
+    socket.user_id = payload.user_id
+    next()
+  } catch (err) {
+    next(err)
+  }
+})
 
 io.on("connection", (socket) => {
+  console.log('Authentication successsful.')
   socket.on("go-online", (id) => {
     if (!onlineUsers.includes(id)) {
       onlineUsers.push(id);

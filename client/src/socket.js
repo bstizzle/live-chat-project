@@ -7,7 +7,10 @@ import {
 } from "./store/conversations";
 
 const socket = io(window.location.origin, {
-  secure: true
+  secure: true,
+  auth: {
+    token: 'login-token'
+  }
 });
 
 socket.on("connect", () => {
@@ -20,9 +23,10 @@ socket.on("connect", () => {
   socket.on("remove-offline-user", (id) => {
     store.dispatch(removeOfflineUser(id));
   });
-  socket.on("new-message", (data) => {
-    store.dispatch(setNewMessage(data.message, data.sender));
-  });
+});
+
+socket.on("new-message", (data) => {
+  store.dispatch(setNewMessage(data.message, data.sender));
 });
 
 export default socket;
