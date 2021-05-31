@@ -29,7 +29,12 @@ const server = http.createServer(app);
  * Listen on provided port, on all network interfaces, and sync database.
  */
 
-const io = require("socket.io")(server);
+const io = require("socket.io")(server, {
+  cors: {
+    origin: 'http://localhost:3000',
+    credentials: true
+  }
+});
 const jwt = require("jsonwebtoken");
 const cookie = require('cookie');
 

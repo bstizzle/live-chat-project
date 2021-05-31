@@ -6,7 +6,13 @@ import {
   addOnlineUser,
 } from "./store/conversations";
 
-const socket = io(window.location.origin, {
+const socket = io('http://localhost:3001', {
+  secure: true,
+  withCredentials: true
+});
+console.log(window.location.origin)
+
+const msgSocket = io(`http://localhost:3001/messages`, {
   secure: true
 });
 
@@ -22,7 +28,7 @@ socket.on("connect", () => {
   });
 });
 
-socket.on("new-message", (data) => {
+msgSocket.on("new-message", (data) => {
   store.dispatch(setNewMessage(data.message, data.sender));
 });
 
