@@ -16,7 +16,16 @@ const SET_SEARCHED_USERS = "SET_SEARCHED_USERS";
 const CLEAR_SEARCHED_USERS = "CLEAR_SEARCHED_USERS";
 const ADD_CONVERSATION = "ADD_CONVERSATION";
 
+const READ_CONVERSATION = "READ_CONVERSATION";
+
 // ACTION CREATORS
+
+export const readConversation = (conversationId) => {
+  return {
+    type: READ_CONVERSATION,
+    conversationId
+  }
+}
 
 export const gotConversations = (conversations) => {
   return {

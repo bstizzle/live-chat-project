@@ -2,6 +2,7 @@ const router = require("express").Router();
 const { User, Conversation, Message } = require("../../db/models");
 const { Op } = require("sequelize");
 const onlineUsers = require("../../onlineUsers");
+const { route } = require("../auth");
 
 // get all conversations for a user, include latest message text for preview, and all messages
 // include other user model so we have info on username/profile pic (don't include current user info)
@@ -77,7 +78,7 @@ router.get("/", async (req, res, next) => {
       // this makes the get request O(N^2) time complexity which isn't great
       let unreads = 0;
       convoJSON.messages.forEach((m) => {
-        if(m.seen === false){
+        if(m.seen === false && userId !== m.senderId){
           unreads += 1;
         }
       })
@@ -98,5 +99,38 @@ router.get("/", async (req, res, next) => {
     next(error);
   }
 });
+
+router.put("/:id", async (req, res, next) => {
+  try {
+    if (!req.user) {
+      return res.sendStatus(401);
+    }
+
+    const conversationId = req.body.id
+    const userId = req.user.id
+
+    const convo = await Conversation.findOne({
+      where: {
+        id: conversationId
+      },
+      include: [
+        { model: Message, order: ["createdAt", "ASC"] }
+      ]
+    })
+
+    await convo.messages.forEach(msg => {
+      if(msg.senderId !== userId){
+        Message.update(
+          {seen: true},
+          {where: {id: msg.id}}
+        )
+      }
+    })
+
+    res.json(convo)
+  } catch (error) {
+    next(error);
+  }
+})
 
 module.exports = router;
