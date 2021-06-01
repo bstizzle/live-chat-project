@@ -33,27 +33,17 @@ export const addMessageToStore = (state, payload) => {
 };
 
 export const addOnlineUserToStore = (state, id) => {
-  return state.map((convo) => {
-    if (convo.otherUser.id === id) {
-      const convoCopy = { ...convo };
-      convoCopy.otherUser.online = true;
-      return convoCopy;
-    } else {
-      return convo;
-    }
-  });
+  //since a user can only have 1 convo with another, find that one convo to update online status
+  //slightly faster than full .map?
+  const onlineConvo = state.find(convo => convo.otherUser.id === id)
+  onlineConvo.otherUser.online = true
+  return [...state, onlineConvo]
 };
 
 export const removeOfflineUserFromStore = (state, id) => {
-  return state.map((convo) => {
-    if (convo.otherUser.id === id) {
-      const convoCopy = { ...convo };
-      convoCopy.otherUser.online = false;
-      return convoCopy;
-    } else {
-      return convo;
-    }
-  });
+  const onlineConvo = state.find(convo => convo.otherUser.id === id)
+  onlineConvo.otherUser.online = false
+  return [...state, onlineConvo]
 };
 
 export const addSearchedUsersToStore = (state, users) => {

@@ -11,11 +11,6 @@ const socket = io('http://localhost:3001', {
   withCredentials: true
 });
 
-const msgSocket = io(`http://localhost:3001/messages`, {
-  secure: true,
-  withCredentials: true
-});
-
 socket.on("connect", () => {
   console.log("connected to server");
 
@@ -26,10 +21,10 @@ socket.on("connect", () => {
   socket.on("remove-offline-user", (id) => {
     store.dispatch(removeOfflineUser(id));
   });
-});
-
-msgSocket.on("new-message", (data) => {
-  store.dispatch(setNewMessage(data.message, data.sender));
+  
+  socket.on("new-message", (data) => {
+    store.dispatch(setNewMessage(data.message, data.sender));
+  });
 });
 
 export default socket;
