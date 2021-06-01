@@ -10,10 +10,10 @@ const socket = io('http://localhost:3001', {
   secure: true,
   withCredentials: true
 });
-console.log(window.location.origin)
 
 const msgSocket = io(`http://localhost:3001/messages`, {
-  secure: true
+  secure: true,
+  withCredentials: true
 });
 
 socket.on("connect", () => {
