@@ -78,8 +78,8 @@ router.get("/", async (req, res, next) => {
         where: {
           seen: false,
           conversationId: conversations[i].id,
-          id: {
-            [Op.not]: userId
+          [Op.not]: {
+            senderId: userId
           }
         }
       })
