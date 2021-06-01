@@ -1,9 +1,11 @@
 import React, { Component } from "react";
-import { Box } from "@material-ui/core";
+import { Box, Chip } from "@material-ui/core";
 import { BadgeAvatar, ChatContent } from "../Sidebar";
 import { withStyles } from "@material-ui/core/styles";
 import { setActiveChat } from "../../store/activeConversation";
 import { connect } from "react-redux";
+
+import { updateConversation } from "../../store/utils/thunkCreators";
 
 const styles = {
   root: {
@@ -21,12 +23,17 @@ const styles = {
 
 class Chat extends Component {
   handleClick = async (conversation) => {
+    if(conversation.id){
+      await this.props.updateConversation(conversation.id)
+    }
     await this.props.setActiveChat(conversation.otherUser.username);
   };
 
   render() {
     const { classes } = this.props;
     const otherUser = this.props.conversation.otherUser;
+    const unreadCount = this.props.conversation.unreadMsgs
+
     return (
       <Box
         onClick={() => this.handleClick(this.props.conversation)}
@@ -39,6 +46,9 @@ class Chat extends Component {
           sidebar={true}
         />
         <ChatContent conversation={this.props.conversation} />
+        {unreadCount === 0 || unreadCount === undefined ? 
+          null : <Chip color="primary" size="small" label={unreadCount} />
+        }
       </Box>
     );
   }
@@ -49,6 +59,9 @@ const mapDispatchToProps = (dispatch) => {
     setActiveChat: (id) => {
       dispatch(setActiveChat(id));
     },
+    updateConversation: (id) => {
+      dispatch(updateConversation(id))
+    }
   };
 };
 

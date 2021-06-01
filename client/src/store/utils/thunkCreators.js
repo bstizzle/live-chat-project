@@ -5,6 +5,7 @@ import {
   addConversation,
   setNewMessage,
   setSearchedUsers,
+  readConversation
 } from "../conversations";
 import { gotUser, setFetchingStatus } from "../user";
 
@@ -67,6 +68,16 @@ export const fetchConversations = () => async (dispatch) => {
     console.error(error);
   }
 };
+
+// thunk for changing 'seen' to true
+export const updateConversation = (id) => async (dispatch) => {
+  try {
+    const { data } = await axios.put(`/api/conversations/${id}`, {id: id});
+    dispatch(readConversation(data))
+  } catch (error) {
+    console.error(error);
+  }
+}
 
 const saveMessage = async (body) => {
   const { data } = await axios.post("/api/messages", body);

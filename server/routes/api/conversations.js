@@ -2,6 +2,7 @@ const router = require("express").Router();
 const { User, Conversation, Message } = require("../../db/models");
 const { Op } = require("sequelize");
 const onlineUsers = require("../../onlineUsers");
+const { route } = require("../auth");
 
 // get all conversations for a user, include latest message text for preview, and all messages
 // include other user model so we have info on username/profile pic (don't include current user info)
@@ -72,6 +73,18 @@ router.get("/", async (req, res, next) => {
       const latestTxtIndex = convoJSON.messages.length-1
       convoJSON.latestMessageText = convoJSON.messages[latestTxtIndex].text;
       convoJSON.latestMessageId = convoJSON.messages[latestTxtIndex].id
+
+      const unreads = await Message.findAll({
+        where: {
+          seen: false,
+          conversationId: conversations[i].id,
+          id: {
+            [Op.not]: userId
+          }
+        }
+      })
+      convoJSON.unreadMsgs = unreads.length;
+
       conversations[i] = convoJSON;
     }
 
@@ -87,5 +100,42 @@ router.get("/", async (req, res, next) => {
     next(error);
   }
 });
+
+router.put("/:id", async (req, res, next) => {
+  try {
+    if (!req.user) {
+      return res.sendStatus(401);
+    }
+
+    const conversationId = req.body.id
+    const userId = req.user.id
+
+    const convo = await Conversation.findOne({
+      where: {
+        id: conversationId
+      },
+      include: [
+        { model: Message, order: ["createdAt", "ASC"] }
+      ]
+    })
+
+    convo.messages = await convo.messages.map(msg => {
+      //for each received message, update seen to true in db and for the response
+      if(msg.senderId !== userId){
+        Message.update(
+          {seen: true},
+          {where: {id: msg.id}}
+        )
+        msg.seen = true;
+        return msg
+      }
+      return msg
+    })
+
+    res.json(convo)
+  } catch (error) {
+    next(error);
+  }
+})
 
 module.exports = router;
