@@ -33,11 +33,14 @@ export const addMessageToStore = (state, payload) => {
 };
 
 export const addOnlineUserToStore = (state, id) => {
-  //since a user can only have 1 convo with another, find that one convo to update online status
+  //since a user can only have one convo with another, find that one convo to update online status
   //slightly faster than full .map?
   const onlineConvo = state.find(convo => convo.otherUser.id === id)
   onlineConvo.otherUser.online = true
-  return [...state, onlineConvo]
+  const newState = state
+  const index = state.indexOf(onlineConvo)
+  newState.splice(index, 1, onlineConvo)
+  return [newState]
 };
 
 export const removeOfflineUserFromStore = (state, id) => {
