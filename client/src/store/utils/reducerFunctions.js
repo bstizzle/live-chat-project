@@ -35,18 +35,34 @@ export const addMessageToStore = (state, payload) => {
 export const addOnlineUserToStore = (state, id) => {
   //since a user can only have one convo with another, find that one convo to update online status
   //slightly faster than full .map?
-  const onlineConvo = state.find(convo => convo.otherUser.id === id)
+  let index;
+  const onlineConvo = state.find((convo, i) => {
+    if(convo.otherUser.id === id){
+      //set index when convo is found so don't have to loop again to find it
+      index = i;
+      return convo;
+    }
+    return  null
+  })
   onlineConvo.otherUser.online = true
   const newState = state
-  const index = state.indexOf(onlineConvo)
   newState.splice(index, 1, onlineConvo)
-  return [newState]
+  return newState
 };
 
 export const removeOfflineUserFromStore = (state, id) => {
-  const onlineConvo = state.find(convo => convo.otherUser.id === id)
-  onlineConvo.otherUser.online = false
-  return [...state, onlineConvo]
+  let index;
+  const offlineConvo = state.find((convo, i) => {
+    if(convo.otherUser.id === id){
+      index = i;
+      return convo;
+    }
+    return null;
+  })
+  offlineConvo.otherUser.online = false
+  const newState = state
+  newState.splice(index, 1, offlineConvo)
+  return newState
 };
 
 export const addSearchedUsersToStore = (state, users) => {
